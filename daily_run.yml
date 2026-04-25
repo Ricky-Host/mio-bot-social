@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Installazione dipendenze
-        run: pip install crewai gspread duckduckgo-search
+        run: pip install crewai gspread duckduckgo-search litellm
       - name: Avvio Script
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}

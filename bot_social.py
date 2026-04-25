@@ -78,9 +78,23 @@ def esecuzione_autonoma():
     crew = Crew(agents=[planner, writer], tasks=[task_1, task_2])
     risultato = crew.kickoff()
     
-    # Qui il bot dovrebbe produrre un output strutturato. Per ora simuliamo la separazione.
-    # (In un sistema reale useresti l'output JSON di CrewAI)
-    scrivi_post_su_sheet("Ricerca Automatica", str(risultato), "Tweet generato")
+risultato_testo = str(risultato)
+    post_ln = ""
+    post_x = ""
+
+    try:
+        # Pulizia per estrarre il JSON se il modello aggiunge ```json ... ```
+        json_clean = risultato_testo.replace("```json", "").replace("```", "").strip()
+        dati_post = json.loads(json_clean)
+        post_ln = dati_post.get("linkedin", risultato_testo)
+        post_x = dati_post.get("x", "")
+    except Exception as e:
+        print(f"Errore parsing JSON: {e}")
+        post_ln = risultato_testo # Fallback: scrivi tutto in LinkedIn
+        post_x = ""
+
+    # Ora scriviamo in colonne separate
+    scrivi_post_su_sheet(argomento, post_ln, post_x)
 
 if __name__ == "__main__":
     esecuzione_autonoma()

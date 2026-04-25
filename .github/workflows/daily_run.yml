@@ -1,0 +1,23 @@
+name: Esecuzione Giornaliera Bot
+on:
+  schedule:
+    - cron: '0 9 * * *' # Gira ogni giorno alle 9:00 UTC
+  workflow_dispatch: # Ti permette di lanciarlo anche a mano per testare
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codice
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+      - name: Installazione dipendenze
+        run: pip install crewai gspread duckduckgo-search
+      - name: Avvio Script
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+        run: python bot_social.py

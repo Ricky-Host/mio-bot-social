@@ -46,7 +46,6 @@ def ricerca_web(query: str, **kwargs) -> str:
             risultati = list(ddgs.text(f"{query} case study", max_results=3))
             return str(risultati)
     except: return "Nessun dato."
-
 def esecuzione_autonoma():
     llm = LLM(model="groq/llama-3.3-70b-versatile", api_key=GROQ_API_KEY)
 
@@ -72,15 +71,18 @@ def esecuzione_autonoma():
     )
 
     task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
+    
+    # Nuovo Task con il SEPARATORE al posto del JSON
     task_2 = Task(
         description='Scrivi 1 post LinkedIn e 1 post X. Dividili ESATTAMENTE inserendo la stringa "||SEPARATORE||" tra l uno e l altro. Non usare JSON, scrivi solo testo normale.', 
         expected_output='Testo post LinkedIn ||SEPARATORE|| Testo post X', 
         agent=writer
     )
+
     crew = Crew(agents=[planner, writer], tasks=[task_1, task_2])
     risultato = crew.kickoff()
     
-risultato_testo = str(risultato)
+    risultato_testo = str(risultato)
     
     # Dividiamo il testo usando la nostra parola d'ordine
     if "||SEPARATORE||" in risultato_testo:
@@ -92,8 +94,8 @@ risultato_testo = str(risultato)
         post_ln = risultato_testo.strip()
         post_x = "Post X non generato correttamente."
 
-    # Scriviamo sul foglio (assicurati che la colonna E sia per lo STATO, o modificala su Fogli)
-    scrivi_post_su_sheet(argomento, post_ln, post_x)
+    # Scriviamo sul foglio (Data, Argomento, LinkedIn, X, Stato)
+    scrivi_post_su_sheet("Ricerca Automatica", post_ln, post_x)
 
 if __name__ == "__main__":
     esecuzione_autonoma()

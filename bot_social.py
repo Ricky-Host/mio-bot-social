@@ -48,16 +48,36 @@ def ricerca_web(query: str, **kwargs) -> str:
     except: return "Nessun dato."
 def esecuzione_autonoma():
     llm = LLM(model="groq/llama-3.3-70b-versatile", api_key=GROQ_API_KEY)
-
-    # 1. PLANNER
+    
+# 1. PLANNER (DIRETTORE STRATEGICO) - Ora focalizzato su Industria 4.0/5.0
     planner = Agent(
-        role='Direttore Strategico', 
-        goal='Trovare nicchie tecnologiche avanzate.',
-        backstory='Sei un analista. Scegli temi complessi ma affascinanti.', 
+        role='Direttore Strategico di Automazione Industriale', 
+        goal='''Individuare innovazioni concrete in tre settori chiave: 
+                1. Food Processing (lavorazione carne, zuppe, efficienza energetica, incentivi Italia).
+                2. Logistica Interna (AGV, muletti autonomi, rulliere, integrazione software).
+                3. Biogas (automazione elettrica, SCADA intelligenti, processi autonomi).''',
+        backstory='''Sei un esperto di consulenza industriale. Il tuo obiettivo è trovare tecnologie che 
+                portino vantaggi reali ai produttori: aumento del margine, riduzione dei costi, 
+                diminuzione dei tempi di fermo macchina e facilità di ripartenza post-guasto.
+                Guardi alle novità dei grandi player (Siemens, Rockwell, ecc.) e cerchi soluzioni che 
+                uniscano meccanica avanzata, elettronica e software (sistemi di visione, AI integrata negli SCADA, 
+                bot di supporto per operatori nel settaggio impianti).''', 
         llm=llm
     )
     
-    # 2. WRITER (IL TOCCO UMANO + MECE INVISIBILE)
+    # 2. SCOUTER (RICERCATORE TECNICO) - Aggiornato per cercare hardware e software
+    scouter = Agent(
+        role='Ingegnere Ricercatore Senior',
+        goal='Trovare schede tecniche, casi studio e novità hardware/software sui temi scelti dal Planner.',
+        backstory='''Sei un ingegnere che non si ferma alla superficie. Cerchi dettagli tecnici su 
+                nuovi sensori di visione, algoritmi di manutenzione predittiva per il Biogas, 
+                nuovi motori ad alta efficienza per il Food o novità software da leader come Siemens e Rockwell. 
+                Ti interessi di come il software semplifica la gestione meccanica.''',
+        tools=[ricerca_web],
+        llm=llm
+    )
+    
+    # 3. WRITER (IL TOCCO UMANO + MECE INVISIBILE)
     writer = Agent(
         role='Analista Industriale',
         goal='Scrivere analisi tecniche che sembrino post di un umano esperto.',

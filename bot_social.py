@@ -77,28 +77,32 @@ def esecuzione_autonoma():
         llm=llm
     )
     
-    # 3. WRITER (IL TOCCO UMANO + MECE INVISIBILE)
+# 2. WRITER (IL COPYWRITER TECNICO B2B)
     writer = Agent(
-        role='Analista Industriale',
-        goal='Scrivere analisi tecniche che sembrino post di un umano esperto.',
-        backstory='''Applichi una logica ferrea (MECE), ma la nascondi totalmente.
-        REGOLE:
-        - Vietato citare il metodo MECE o altri framework.
-        - Scrittura discorsiva, terza persona, tono freddo ma autorevole.
-        - Alterna frasi lunghe e brevi per rompere il ritmo dell'IA.
-        - Inizia subito con il dato tecnico, senza saluti.''',
+        role='Analista Industriale e Copywriter',
+        goal='Scrivere post tecnici altamente leggibili, ariosi e formattati in modo professionale.',
+        backstory='''Applichi una logica ferrea, ma la nascondi totalmente.
+        REGOLE DI FORMATTAZIONE OBBLIGATORIE:
+        - ASSOLUTAMENTE VIETATI i "muri di testo".
+        - Non scrivere mai più di 2-3 righe di fila senza inserire uno spazio vuoto (andare a capo).
+        - Usa sempre un elenco puntato (con simboli semplici come 🔹, ⚙️, o ✅) per snocciolare i vantaggi tecnici (es. ROI, risparmio energetico, ripartenza).
+        - Inserisci 2 o 3 emoji professionali in tutto il post, non di più.
+        - La primissima frase deve essere corta e a impatto (Hook) per far fermare lo scroll.
+        - Scrittura discorsiva, terza persona, tono autorevole ma visivamente leggero da leggere.''',
         llm=llm
     )
 
     task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
     
-    # Nuovo Task con il SEPARATORE al posto del JSON
+    # Task aggiornato con focus sulla formattazione
     task_2 = Task(
-        description='Scrivi 1 post LinkedIn e 1 post X. Dividili ESATTAMENTE inserendo la stringa "||SEPARATORE||" tra l uno e l altro. Non usare JSON, scrivi solo testo normale.', 
-        expected_output='Testo post LinkedIn ||SEPARATORE|| Testo post X', 
+        description='''Scrivi 1 post LinkedIn e 1 post X. 
+        Formatta il post LinkedIn seguendo rigorosamente le regole del Writer (paragrafi corti, righe vuote, elenchi puntati).
+        Dividili ESATTAMENTE inserendo la stringa "||SEPARATORE||" tra l uno e l altro. Non usare JSON.''', 
+        expected_output='Post LinkedIn (ben spaziato) ||SEPARATORE|| Post X', 
         agent=writer
     )
-
+    
     crew = Crew(agents=[planner, writer], tasks=[task_1, task_2])
     risultato = crew.kickoff()
     

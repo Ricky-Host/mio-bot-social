@@ -72,28 +72,27 @@ def esecuzione_autonoma():
     )
 
     task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
-    task_2 = Task(description='Scrivi 1 post LinkedIn e 1 post X separati.', 
-                  expected_output='JSON con chiavi "linkedin" e "x".', agent=writer)
-
+    task_2 = Task(
+        description='Scrivi 1 post LinkedIn e 1 post X. Dividili ESATTAMENTE inserendo la stringa "||SEPARATORE||" tra l uno e l altro. Non usare JSON, scrivi solo testo normale.', 
+        expected_output='Testo post LinkedIn ||SEPARATORE|| Testo post X', 
+        agent=writer
+    )
     crew = Crew(agents=[planner, writer], tasks=[task_1, task_2])
     risultato = crew.kickoff()
     
 risultato_testo = str(risultato)
-    post_ln = ""
-    post_x = ""
+    
+    # Dividiamo il testo usando la nostra parola d'ordine
+    if "||SEPARATORE||" in risultato_testo:
+        parti = risultato_testo.split("||SEPARATORE||")
+        post_ln = parti[0].strip()
+        post_x = parti[1].strip()
+    else:
+        # Se l'AI si dimentica il separatore, mettiamo tutto su LinkedIn
+        post_ln = risultato_testo.strip()
+        post_x = "Post X non generato correttamente."
 
-    try:
-        # Pulizia per estrarre il JSON se il modello aggiunge ```json ... ```
-        json_clean = risultato_testo.replace("```json", "").replace("```", "").strip()
-        dati_post = json.loads(json_clean)
-        post_ln = dati_post.get("linkedin", risultato_testo)
-        post_x = dati_post.get("x", "")
-    except Exception as e:
-        print(f"Errore parsing JSON: {e}")
-        post_ln = risultato_testo # Fallback: scrivi tutto in LinkedIn
-        post_x = ""
-
-    # Ora scriviamo in colonne separate
+    # Scriviamo sul foglio (assicurati che la colonna E sia per lo STATO, o modificala su Fogli)
     scrivi_post_su_sheet(argomento, post_ln, post_x)
 
 if __name__ == "__main__":

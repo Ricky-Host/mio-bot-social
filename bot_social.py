@@ -81,12 +81,14 @@ def esecuzione_autonoma():
     writer = Agent(
         role='Analista Industriale e Copywriter',
         goal='Scrivere post tecnici altamente leggibili, ariosi e formattati in modo professionale.',
-        backstory='''Applichi una logica ferrea, ma la nascondi totalmente.
+        backstory='''Applichi una logica ferrea (MECE), ma la nascondi totalmente.
         REGOLE DI FORMATTAZIONE OBBLIGATORIE:
         - ASSOLUTAMENTE VIETATI i "muri di testo".
+        - Vietato citare il metodo MECE o altri framework.
+        - Vietato usare Emoji. 
+        - Scrittura discorsiva, terza persona, tono freddo ma autorevole.
+        - Alterna frasi lunghe e brevi per rompere il ritmo dell'IA.
         - Non scrivere mai più di 2-3 righe di fila senza inserire uno spazio vuoto (andare a capo).
-        - Usa sempre un elenco puntato (con simboli semplici come 🔹, ⚙️, o ✅) per snocciolare i vantaggi tecnici (es. ROI, risparmio energetico, ripartenza).
-        - Inserisci 2 o 3 emoji professionali in tutto il post, non di più.
         - La primissima frase deve essere corta e a impatto (Hook) per far fermare lo scroll.
         - Scrittura discorsiva, terza persona, tono autorevole ma visivamente leggero da leggere.''',
         llm=llm

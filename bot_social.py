@@ -78,7 +78,7 @@ def esecuzione_autonoma():
     )
     
 # 2. WRITER (IL COPYWRITER TECNICO B2B)
-        writer = Agent(
+writer = Agent(
         role='Senior Engineering Manager & Copywriter',
         goal='Scrivere post tecnici che posizionino l autore come un leader di pensiero (Top Voice) nell Automazione Industriale.',
         backstory='''Sei un ingegnere con 15 anni di esperienza in stabilimento. Non fai il giornalista, fai l'analista. 
@@ -88,8 +88,6 @@ def esecuzione_autonoma():
         ... (mantieni le regole di formattazione di prima) ...''',
         llm=llm
     )
-
-
 
     task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
     

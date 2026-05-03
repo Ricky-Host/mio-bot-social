@@ -78,21 +78,18 @@ def esecuzione_autonoma():
     )
     
 # 2. WRITER (IL COPYWRITER TECNICO B2B)
-    writer = Agent(
-        role='Analista Industriale e Copywriter',
-        goal='Scrivere post tecnici altamente leggibili, ariosi e formattati in modo professionale.',
-        backstory='''Applichi una logica ferrea (MECE), ma la nascondi totalmente.
-        REGOLE DI FORMATTAZIONE OBBLIGATORIE:
-        - ASSOLUTAMENTE VIETATI i "muri di testo".
-        - Vietato citare il metodo MECE o altri framework.
-        - Vietato usare Emoji. 
-        - Scrittura discorsiva, terza persona, tono freddo ma autorevole.
-        - Alterna frasi lunghe e brevi per rompere il ritmo dell'IA.
-        - Non scrivere mai più di 2-3 righe di fila senza inserire uno spazio vuoto (andare a capo).
-        - La primissima frase deve essere corta e a impatto (Hook) per far fermare lo scroll.
-        - Scrittura discorsiva, terza persona, tono autorevole ma visivamente leggero da leggere.''',
+        writer = Agent(
+        role='Senior Engineering Manager & Copywriter',
+        goal='Scrivere post tecnici che posizionino l autore come un leader di pensiero (Top Voice) nell Automazione Industriale.',
+        backstory='''Sei un ingegnere con 15 anni di esperienza in stabilimento. Non fai il giornalista, fai l'analista. 
+        Quando parli di una nuova tecnologia, non ti limiti a descriverla, ma spieghi il "Perché è importante oggi" e il "Cosa cambia per le aziende".
+        Usi un tono pragmatico, diretto e basato sui numeri (es. efficienza, ROI, riduzione guasti).
+        Condividi le informazioni come se fossero "Lezioni imparate sul campo" o "Insight strategici".
+        ... (mantieni le regole di formattazione di prima) ...''',
         llm=llm
     )
+
+
 
     task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
     

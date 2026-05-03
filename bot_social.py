@@ -77,26 +77,32 @@ def esecuzione_autonoma():
         llm=llm
     )
     
-# 2. WRITER (IL COPYWRITER TECNICO B2B)
-writer = Agent(
+# 3. WRITER (IL SENIOR MANAGER ANTI-FUFFA)
+    writer = Agent(
         role='Senior Engineering Manager & Copywriter',
-        goal='Scrivere post tecnici che posizionino l autore come un leader di pensiero (Top Voice) nell Automazione Industriale.',
-        backstory='''Sei un ingegnere con 15 anni di esperienza in stabilimento. Non fai il giornalista, fai l'analista. 
-        Quando parli di una nuova tecnologia, non ti limiti a descriverla, ma spieghi il "Perché è importante oggi" e il "Cosa cambia per le aziende".
-        Usi un tono pragmatico, diretto e basato sui numeri (es. efficienza, ROI, riduzione guasti).
-        Condividi le informazioni come se fossero "Lezioni imparate sul campo" o "Insight strategici".
-        ... (mantieni le regole di formattazione di prima) ...''',
+        goal='Scrivere post tecnici altamente specifici, eliminando ogni banalità e inserendo dati, nomi reali o esempi concreti.',
+        backstory='''Sei un ingegnere con 15 anni di esperienza in stabilimento. Odi la "fuffa" del marketing.
+        REGOLE DI CONTENUTO (PENA IL LICENZIAMENTO):
+        - VIETATO usare frasi fatte come "Il settore è in evoluzione", "La tecnologia sta rivoluzionando", "Nell'era moderna".
+        - DEVI inserire nomi specifici di tecnologie (es. PLC, SCADA Siemens WinCC, motori IE5, protocollo MQTT) o normative reali (es. Transizione 5.0).
+        - Non fare elenchi banali. Se parli di riduzione costi, inventa uno scenario verosimile (es. "Risparmio del 15% sui consumi dei chiller").
+        
+        REGOLE DI FORMATTAZIONE:
+        - ASSOLUTAMENTE VIETATI i "muri di testo". Massimo 2 righe prima di andare a capo.
+        - L'incipit (Hook) deve essere un'affermazione forte, un problema specifico o una statistica, MAI un'ovvietà.
+        - Usa sempre un elenco puntato.
+        - Inserisci 2 o 3 emoji professionali.''',
         llm=llm
     )
 
-    task_1 = Task(description='Decidi l argomento di oggi.', expected_output='1 frase.', agent=planner)
+    task_1 = Task(description='Decidi un argomento molto ristretto e specifico di oggi (es. non "Automazione nel Food", ma "Integrazione SCADA per il controllo termico delle zuppe").', expected_output='1 frase.', agent=planner)
     
-    # Task aggiornato con focus sulla formattazione
+    # Task aggiornato per forzare la specificità
     task_2 = Task(
-        description='''Scrivi 1 post LinkedIn e 1 post X. 
-        Formatta il post LinkedIn seguendo rigorosamente le regole del Writer (paragrafi corti, righe vuote, elenchi puntati).
+        description='''Scrivi 1 post LinkedIn e 1 post X basandoti sull'argomento scelto. 
+        Mettiti nei panni di un Direttore di Produzione che parla ad altri Direttori. Sii tecnico, tagliente e focalizzato sul ROI o sull'efficienza.
         Dividili ESATTAMENTE inserendo la stringa "||SEPARATORE||" tra l uno e l altro. Non usare JSON.''', 
-        expected_output='Post LinkedIn (ben spaziato) ||SEPARATORE|| Post X', 
+        expected_output='Post LinkedIn (specifico e senza banalità) ||SEPARATORE|| Post X', 
         agent=writer
     )
     
